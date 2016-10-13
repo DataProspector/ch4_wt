@@ -1,5 +1,6 @@
 # This file is app/controllers/movies_controller.rb
 class MoviesController < ApplicationController
+  
   def index
     @movies = Movie.all
   end
@@ -14,5 +15,17 @@ class MoviesController < ApplicationController
     @movie = Movie.new
     # default: render 'new' template
   end 
+  
+  def create
+    
+    # params.require(:movie)
+    # params[:movie].permit(:title,:rating,:release_date)
+    permitted = params.require(:movie).permit(:title,:rating,:release_date)
+    # rest of code...
+    @movie = Movie.create!(permitted)
+    flash[:notice] = "#{@movie.title} was successfully created."
+    redirect_to movies_path
+    
+  end
   
 end
